@@ -5,6 +5,10 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.Api", "src\MusicStore.Api\MusicStore.Api.csproj", "{707D845F-7699-4707-8F9D-337460831D1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.Entities", "src\MusicStore.Entities\MusicStore.Entities.csproj", "{A6CC3E0F-EB7B-4C41-8608-C72D733F19AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.Repositories", "src\MusicStore.Repositories\MusicStore.Repositories.csproj", "{8643A5C2-FBC5-41CD-A141-554CDFE22E15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{707D845F-7699-4707-8F9D-337460831D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{707D845F-7699-4707-8F9D-337460831D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{707D845F-7699-4707-8F9D-337460831D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6CC3E0F-EB7B-4C41-8608-C72D733F19AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6CC3E0F-EB7B-4C41-8608-C72D733F19AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6CC3E0F-EB7B-4C41-8608-C72D733F19AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CC3E0F-EB7B-4C41-8608-C72D733F19AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8643A5C2-FBC5-41CD-A141-554CDFE22E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8643A5C2-FBC5-41CD-A141-554CDFE22E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8643A5C2-FBC5-41CD-A141-554CDFE22E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8643A5C2-FBC5-41CD-A141-554CDFE22E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
