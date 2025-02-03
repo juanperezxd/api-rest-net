@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using MusicStore.Persistence;
 using MusicStore.Repositories;
 using MusicStore.Repositories.Abstractions;
+using MusicStore.Repositories.Implementations;
+using MusicStore.Services.Abstractions;
+using MusicStore.Services.Implementations;
+using MusicStore.Services.Profiles;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +27,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 //Inyección de dependencias
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IConcertRepository, ConcertRepository>();
+builder.Services.AddScoped<IConcertService, ConcertService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<ConcertProfile>();
+    config.AddProfile<GenreProfile>();
+});
 
 
 
