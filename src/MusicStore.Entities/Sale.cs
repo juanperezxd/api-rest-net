@@ -15,5 +15,6 @@ namespace MusicStore.Entities
         public decimal Total {  get; set; }
         public short Quantify {  get; set; }
         public Customer Customer { get; set; } = default!;
+        public Concert Concert { get; set; } = default!;
     }
 }

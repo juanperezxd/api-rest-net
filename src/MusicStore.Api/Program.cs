@@ -28,13 +28,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //Inyección de dependencias
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IConcertRepository, ConcertRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+
+
 builder.Services.AddScoped<IConcertService, ConcertService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+
 
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<ConcertProfile>();
     config.AddProfile<GenreProfile>();
+    config.AddProfile<SaleProfile>();
 });
 
 

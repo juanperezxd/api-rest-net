@@ -41,14 +41,14 @@ namespace MusicStore.Repositories.Implementations
             return await context.Set<TEntity>()
                 .FindAsync(id);
         }
-        public async Task<int> AddAsync(TEntity entity)
+        public virtual async Task<int> AddAsync(TEntity entity)
         {
             await context.Set<TEntity>()
                 .AddAsync(entity);
             await context.SaveChangesAsync();
             return entity.Id;
         }
-        public async Task UpdateAsync()
+        public virtual async Task UpdateAsync()
         {
             await context.SaveChangesAsync();
         }
