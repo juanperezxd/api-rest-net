@@ -1,10 +1,8 @@
-﻿using System.Net;
+﻿
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.Dto.Request;
-using MusicStore.Dto.Response;
-using MusicStore.Entities;
-using MusicStore.Repositories;
-using MusicStore.Repositories.Abstractions;
 using MusicStore.Services.Abstractions;
 
 namespace MusicStore.Api.Controllers
@@ -21,6 +19,7 @@ namespace MusicStore.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get()
         {
             var response = await service.GetAsync();

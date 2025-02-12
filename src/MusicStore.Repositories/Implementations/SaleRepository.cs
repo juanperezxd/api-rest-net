@@ -1,16 +1,23 @@
 ﻿
 using System.Data;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using MusicStore.Dto.Request;
 using MusicStore.Entities;
 using MusicStore.Persistence;
 using MusicStore.Repositories.Abstractions;
+using MusicStore.Repositories.Utils;
 
 namespace MusicStore.Repositories.Implementations
 {
     public class SaleRepository : RepositoryBase<Sale>, ISaleRepository
     {
-        public SaleRepository(ApplicationDbContext context) : base(context)
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public SaleRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : base(context)
         {
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task CreateTransactionAsync()
@@ -52,6 +59,25 @@ namespace MusicStore.Repositories.Implementations
                 .AsNoTracking()
                 .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(); 
+        }
+
+        public async Task<ICollection<Sale>> GetAsync<TKey>(Expression<Func<Sale, bool>> predicate,
+        Expression<Func<Sale, TKey>> orderBy,
+        PaginationDto pagination)
+        {
+            var queryable = context.Set<Sale>()
+                .Include(x => x.Customer)
+                .Include(x => x.Concert)
+                .ThenInclude(x => x.Genre)
+                .Where(predicate)
+                .OrderBy(orderBy)
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .AsQueryable();
+
+            await httpContextAccessor.HttpContext.InsertarPaginacionHeader(queryable);
+            var response = await queryable.Paginate(pagination).ToListAsync();
+            return response;
         }
     }
 }

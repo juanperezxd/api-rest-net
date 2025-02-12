@@ -4,13 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Entities;
 using MusicStore.Entities.Info;
 
 namespace MusicStore.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<MusicStoreUserIdentity>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options) 
         {
@@ -27,6 +29,10 @@ namespace MusicStore.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Ignore<ConcertInfo>();
             //modelBuilder.Entity<ConcertInfo>().HasNoKey();
+
+            modelBuilder.Entity<MusicStoreUserIdentity>(x => x.ToTable("Usuario"));
+            modelBuilder.Entity<IdentityRole>(x => x.ToTable("Rol"));
+            modelBuilder.Entity<IdentityUserRole<string>>(x => x.ToTable("UsuarioRol"));
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

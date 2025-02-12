@@ -114,5 +114,54 @@ namespace MusicStore.Services.Implementations
 
             return response;
         }
+
+        public async Task<BaseResponseGeneric<ICollection<SaleResponseDto>>> GetAsync(SaleByDateSearchDto search, PaginationDto pagination)
+        {
+            var response = new BaseResponseGeneric<ICollection<SaleResponseDto>>();
+
+            try
+            {
+                var dateInit = Convert.ToDateTime(search.DateStart);
+                var dateEnd = Convert.ToDateTime(search.DateEnd);
+
+                var data = await repository.GetAsync(
+                    predicate: s => s.SaleDate >= dateInit && s.SaleDate <= dateEnd,
+                    orderBy: x => x.OperationNumber,
+                    pagination
+                    );
+                response.Data = mapper.Map<ICollection<SaleResponseDto>>(data);
+
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+
+                response.ErrorMessage = "Ha ocurrido un error al filtrar ventas por fecha";
+                logger.LogError(ex, "{ErrorMessage} {Message}", response.ErrorMessage, ex.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponseGeneric<ICollection<SaleResponseDto>>> GetAsync(string email, string title, PaginationDto pagination)
+        {
+            var response = new BaseResponseGeneric<ICollection<SaleResponseDto>>();
+            try
+            {
+                var data = await repository.GetAsync(
+                    predicate: s => s.Customer.Email == email && s.Concert.Title.Contains(title ?? string.Empty),
+                    orderBy: x => x.SaleDate,
+                    pagination);
+
+                response.Data = mapper.Map<ICollection<SaleResponseDto>>(data);
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.ErrorMessage = "Error al filtrar las ventas del usuario por título.";
+                logger.LogError(ex, "{ErrorMessage} {Message}", response.ErrorMessage, ex.Message);
+            }
+            return response;
+        }
     }
 }

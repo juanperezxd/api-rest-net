@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Persistence;
 using MusicStore.Repositories;
@@ -9,6 +11,20 @@ using MusicStore.Services.Profiles;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+//CORS
+var corsConfiguration = "MusicStoreCors";
+
+builder.Services.AddCors(setup =>
+{
+    setup.AddPolicy(corsConfiguration, policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader().WithExposedHeaders(new string[] { "TotalRecordsQuantity"});
+    });
+});
 
 // Add services to the container.
 
@@ -36,6 +52,19 @@ builder.Services.AddScoped<IConcertService, ConcertService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
+builder.Services.AddHttpContextAccessor();
+
+//Configuring Identity security policies
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.AddIdentity<MusicStoreUserIdentity, IdentityRole>(policies =>
+{
+    policies.Password.RequireDigit = true;
+    policies.Password.RequiredLength = 6;
+    policies.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -58,6 +87,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

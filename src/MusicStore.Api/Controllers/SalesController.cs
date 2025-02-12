@@ -28,5 +28,19 @@ namespace MusicStore.Api.Controllers
             var response = await service.AddAsync(request.Email, request);
             return response.Success ? Ok(response) : BadRequest(response);
         }
+
+        [HttpGet("ListSalesByDate")]
+        public async Task<IActionResult> GetByDate([FromQuery] SaleByDateSearchDto search, [FromQuery] PaginationDto pagination)
+        {
+            var response = await service.GetAsync(search, pagination);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpGet("ListSales")]
+        public async Task<IActionResult> Get(string email, [FromQuery] string? title, [FromQuery] PaginationDto pagination)
+        {
+            var response = await service.GetAsync(email, title, pagination);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
     }
 }
